@@ -80,8 +80,18 @@ const Home = ({ host, apiKey }) => {
         value={{ selectedLanguage, setSelectedLanguage: setSelectedCountry }}
       >
         <Head>
+  {/* <!-- Google tag (gtag.js) --> */}
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6JLS9M98HW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6JLS9M98HW');
+</script>
           <title>{t('Meilisearch starter')}</title>
           <meta name="description" content={t('meta.description')} />
+          
         </Head>
         {client &&
           (hasDocuments ? (
