@@ -10,7 +10,7 @@ export default async function handler(request) {
     if (contentType && contentType.includes('text/html')) {
       let html = await response.text();
   
-      // Insert the Lytics tracking code before the closing </head> tag
+      // Lytics tracking code
       const lyticsScript = `
         <!-- Start Lytics Tracking Tag Version 3 -->
         <script type="text/javascript">
@@ -26,8 +26,25 @@ export default async function handler(request) {
         <!-- End Lytics Tracking Tag -->
       `;
   
-      // Insert the Lytics script before the closing </head> tag
-      html = html.replace('</head>', `${lyticsScript}</head>`);
+      // Google Analytics tracking code
+      const googleAnalyticsScript = `
+        <!-- Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXX-X"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+  
+          gtag('config', 'G-6JLS9M98HW');
+        </script>
+        <!-- End Google Analytics -->
+      `;
+  
+      // Combine Lytics and Google Analytics scripts
+      const combinedScripts = `${lyticsScript}\n${googleAnalyticsScript}`;
+  
+      // Insert the combined scripts before the closing </head> tag
+      html = html.replace('</head>', `${combinedScripts}</head>`);
   
       // Create a new response with the modified HTML
       modifiedResponse = new Response(html, {
